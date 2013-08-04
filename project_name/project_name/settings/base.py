@@ -183,6 +183,15 @@ DJANGO_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cms',
+    'mptt',
+    'menus',
+    'south',
+    'sekizai',
+    'cms.plugins.file',
+    'cms.plugins.link',
+    'cms.plugins.picture',
+    'cms.plugins.text',
 
     # Useful template tags:
     # 'django.contrib.humanize',
