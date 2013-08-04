@@ -220,6 +220,11 @@ LOCAL_APPS = (
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 ########## END APP CONFIGURATION
 
+########## CMS CONFIGURATION
+# Configuration for django-cms
+CMS_TEMPLATES = (
+        ('template_1.html', 'Template One'),
+)
 
 ########## LOGGING CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#logging
