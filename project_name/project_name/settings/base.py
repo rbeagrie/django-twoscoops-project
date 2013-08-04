@@ -197,7 +197,7 @@ DJANGO_APPS = (
     'cms.plugins.file',
     'cms.plugins.link',
     'cms.plugins.picture',
-    'cms.plugins.text'
+    'cms.plugins.text',
 
     # Useful template tags:
     # 'django.contrib.humanize',
