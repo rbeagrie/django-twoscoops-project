@@ -33,7 +33,7 @@ TEMPLATE_DEBUG = DEBUG
 ########## MANAGER CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = (
-    ('Your Name', 'your_email@example.com'),
+    ('Rob Beagrie', 'rob@beagrie.com'),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -58,7 +58,7 @@ DATABASES = {
 
 ########## GENERAL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#time-zone
-TIME_ZONE = 'America/Los_Angeles'
+TIME_ZONE = 'Europe/London'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = 'en'
@@ -67,6 +67,28 @@ LANGUAGE_CODE = 'en'
 LANGUAGES = [
     ('en', 'English'),
 ]
+
+CMS_LANGUAGES = {
+    ## Customize this
+    'default': {
+        'hide_untranslated': False,
+        'redirect_on_fallback': True,
+        'public': True,
+    },
+    1: [
+        {
+            'redirect_on_fallback': True,
+            'code': 'en',
+            'hide_untranslated': False,
+            'name': 'English',
+            'public': True,
+        },
+    ],
+}
+
+CMS_PERMISSION = True
+
+CMS_PLACEHOLDER_CONF = {}
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
@@ -137,21 +159,23 @@ FIXTURE_DIRS = (
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.debug',
     'django.core.context_processors.request',
+    'django.core.context_processors.media',
+    'django.core.context_processors.csrf',
+    'django.core.context_processors.tz',
     'cms.context_processors.media',
     'sekizai.context_processors.sekizai',
+    'django.core.context_processors.static'
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
+    'django.template.loaders.eggs.Loader',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
@@ -165,16 +189,18 @@ TEMPLATE_DIRS = (
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#middleware-classes
 MIDDLEWARE_CLASSES = (
     # Default Django middleware.
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.doc.XViewMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
-    'cms.middleware.language.LanguageCookieMiddleware',
+    'cms.middleware.language.LanguageCookieMiddleware'
 )
 ########## END MIDDLEWARE CONFIGURATION
 
@@ -191,18 +217,11 @@ DJANGO_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.admin',
     'django.contrib.sites',
-    'django.contrib.messages',
+    'django.contrib.sitemaps',
     'django.contrib.staticfiles',
-    'cms',
-    'mptt',
-    'menus',
-    'south',
-    'sekizai',
-    'cms.plugins.file',
-    'cms.plugins.link',
-    'cms.plugins.picture',
-    'cms.plugins.text',
+    'django.contrib.messages',
 
     # Useful template tags:
     # 'django.contrib.humanize',
@@ -212,12 +231,32 @@ DJANGO_APPS = (
     # 'django.contrib.admindocs',
 )
 
+CMS_APPS = (
+        'djangocms_admin_style',
+        'djangocms_text_ckeditor',
+        'cms',
+        'mptt',
+        'menus',
+        'sekizai',
+        'djangocms_style',
+        'djangocms_column',
+        'djangocms_file',
+        'djangocms_flash',
+        'djangocms_googlemap',
+        'djangocms_inherit',
+        'djangocms_link',
+        'djangocms_picture',
+        'djangocms_teaser',
+        'djangocms_video',
+        'reversion',
+)
+
 # Apps specific for this project go here.
 LOCAL_APPS = (
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + CMS_APPS + LOCAL_APPS
 ########## END APP CONFIGURATION
 
 ########## CMS CONFIGURATION
