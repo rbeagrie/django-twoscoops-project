@@ -2,8 +2,21 @@
 
 
 from os.path import abspath, basename, dirname, join, normpath
+from os import environ
 from sys import path
 
+
+# Normally you should not import ANYTHING from Django directly
+# into your settings, but ImproperlyConfigured is an exception.
+from django.core.exceptions import ImproperlyConfigured
+
+def get_env_setting(setting):
+    """ Get the environment setting or return exception """
+    try:
+        return environ[setting]
+    except KeyError:
+        error_msg = "Set the %s env variable" % setting
+        raise ImproperlyConfigured(error_msg)
 
 ########## PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
@@ -43,15 +56,14 @@ MANAGERS = ADMINS
 
 ########## DATABASE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
-    }
+MYSQL_PASSWORD = get_env_setting('MYSQL_PASSWORD')
+
+DATABASES = {'default':{
+'ENGINE':'django.db.backends.mysql',
+'USER': SITE_NAME,
+'NAME': SITE_NAME,
+'PASSWORD': MYSQL_PASSWORD,
+'HOST': 'localhost'},
 }
 ########## END DATABASE CONFIGURATION
 
